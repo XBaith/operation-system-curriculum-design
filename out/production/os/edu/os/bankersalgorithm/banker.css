@@ -1,0 +1,43 @@
+.root {
+    -fx-background-color: #FFEC8B;
+}
+
+.label {
+    -fx-font-size:  20px;
+}
+
+.text-field {
+    -fx-border-color: #6CA6CD;
+    -fx-border-width: 2;
+    -fx-font-size: 20px;
+    -fx-background-color: white;
+}
+
+.button {
+    -fx-padding: 5 22 5 22;
+    -fx-border-color: #6CA6CD;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: white;
+    -fx-text-fill: #000000;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.button:hover {
+    -fx-background-color: #F0FFFF;
+}
+
+.table-view {
+    -fx-font-size: 20px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #6CA6CD;
+}
+
+.table-view .column {
+    -fx-background-color: white;
+}
+
+
+

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_os" default="compile.module.os">
+  <dirname property="module.os.basedir" file="${ant.file.module_os}"/>
+  
+  <property name="module.jdk.home.os" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.os" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.os" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.os" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="os.output.dir" value="${module.os.basedir}/out/production/os"/>
+  <property name="os.testoutput.dir" value="${module.os.basedir}/out/test/os"/>
+  
+  <path id="os.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="os.module.production.classpath">
+    <path refid="${module.jdk.classpath.os}"/>
+    <pathelement location="${basedir}/../../../../../../../media/baith/123b86d4-6a94-41c8-994f-5786ea4c760c/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="os.runtime.production.module.classpath">
+    <pathelement location="${os.output.dir}"/>
+    <pathelement location="${basedir}/../../../../../../../media/baith/123b86d4-6a94-41c8-994f-5786ea4c760c/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="os.module.classpath">
+    <path refid="${module.jdk.classpath.os}"/>
+    <pathelement location="${os.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/../../../../../../../media/baith/123b86d4-6a94-41c8-994f-5786ea4c760c/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="os.runtime.module.classpath">
+    <pathelement location="${os.testoutput.dir}"/>
+    <pathelement location="${os.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/../../../../../../../media/baith/123b86d4-6a94-41c8-994f-5786ea4c760c/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.os">
+    <patternset refid="ignored.files"/>
+    <exclude name="out/**"/>
+    <exclude name="out/test/**"/>
+    <exclude name="out/test/os/**"/>
+    <exclude name="out/test/os/edu/**"/>
+    <exclude name="out/test/os/edu/os/**"/>
+    <exclude name="out/test/os/edu/os/process/**"/>
+    <exclude name="out/test/os/edu/os/bankersalgorithm/**"/>
+    <exclude name="out/production/**"/>
+    <exclude name="out/production/os/**"/>
+    <exclude name="out/production/os/edu/**"/>
+    <exclude name="out/production/os/edu/os/**"/>
+    <exclude name="out/production/os/edu/os/memory/**"/>
+    <exclude name="out/production/os/edu/os/process/**"/>
+    <exclude name="out/production/os/edu/os/process/dispatcher/**"/>
+    <exclude name="out/production/os/edu/os/bankersalgorithm/**"/>
+    <exclude name="out/production/os/src/**"/>
+    <exclude name="out/production/os/src/edu/**"/>
+    <exclude name="out/production/os/src/edu/os/**"/>
+    <exclude name="out/production/os/src/edu/os/memory/**"/>
+    <exclude name="out/production/os/src/edu/os/process/**"/>
+    <exclude name="out/production/os/src/edu/os/process/dispatcher/**"/>
+    <exclude name="out/production/os/src/edu/os/bankersalgorithm/**"/>
+    <exclude name="out/production/os/test/**"/>
+    <exclude name="out/production/os/test/edu/**"/>
+    <exclude name="out/production/os/test/edu/os/**"/>
+    <exclude name="out/production/os/test/edu/os/process/**"/>
+    <exclude name="out/production/os/test/edu/os/bankersalgorithm/**"/>
+    <exclude name="out/production/os/.idea/**"/>
+    <exclude name="out/production/os/.idea/codeStyles/**"/>
+    <exclude name="out/production/os/META-INF/**"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.os">
+    <patternset refid="excluded.from.module.os"/>
+  </patternset>
+  
+  <path id="os.module.sourcepath">
+    <dirset dir="${module.os.basedir}/../../local">
+      <include name="os/src"/>
+      <include name="os"/>
+    </dirset>
+  </path>
+  
+  <path id="os.module.test.sourcepath">
+    <dirset dir="${module.os.basedir}/../../local">
+      <include name="os/test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.os" depends="compile.module.os.production,compile.module.os.tests" description="Compile module os"/>
+  
+  <target name="compile.module.os.production" depends="register.custom.compilers" description="Compile module os; production classes">
+    <mkdir dir="${os.output.dir}"/>
+    <javac2 destdir="${os.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.os}/javac">
+      <compilerarg line="${compiler.args.os}"/>
+      <bootclasspath refid="os.module.bootclasspath"/>
+      <classpath refid="os.module.production.classpath"/>
+      <src refid="os.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.os"/>
+    </javac2>
+    
+    <copy todir="${os.output.dir}">
+      <fileset dir="${module.os.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.os.basedir}">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.os.tests" depends="register.custom.compilers,compile.module.os.production" description="compile module os; test classes" unless="skip.tests">
+    <mkdir dir="${os.testoutput.dir}"/>
+    <javac2 destdir="${os.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.os}/javac">
+      <compilerarg line="${compiler.args.os}"/>
+      <bootclasspath refid="os.module.bootclasspath"/>
+      <classpath refid="os.module.classpath"/>
+      <src refid="os.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.os"/>
+    </javac2>
+    
+    <copy todir="${os.testoutput.dir}">
+      <fileset dir="${module.os.basedir}/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.os" description="cleanup module">
+    <delete dir="${os.output.dir}"/>
+    <delete dir="${os.testoutput.dir}"/>
+  </target>
+</project>
